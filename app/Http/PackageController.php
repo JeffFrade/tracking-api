@@ -38,6 +38,17 @@ class PackageController extends Controller
         }
     }
 
+    public function show(int $id)
+    {
+        try {
+            $data = $this->package->show($id);
+
+            return response()->json($this->sendResponse($data, 1), 200);
+        } catch (\Throwable $throwable) {
+            return $this->handleException($throwable);
+        }
+    }
+
     private function toValidate(Request $request)
     {
         $validation = $this->validate($request, [

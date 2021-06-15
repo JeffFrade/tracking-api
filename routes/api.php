@@ -19,5 +19,6 @@ Auth::routes();
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'packages'], function () {
         Route::get('/', 'PackageController@index')->name('package.index');
+        Route::get('/show/{id}', 'PackageController@show')->name('package.show');
     });
 });

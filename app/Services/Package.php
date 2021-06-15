@@ -52,4 +52,21 @@ class Package
 
         return $packages;
     }
+
+    /**
+     * @param int $id
+     * @return mixed
+     * @throws PackageNotFoundException
+     */
+    public function show(int $id)
+    {
+        $package = $this->getPackageRepository()
+            ->show($id);
+
+        if (empty($package)) {
+            throw new PackageNotFoundException('Pacote inexistente');
+        }
+
+        return $package;
+    }
 }

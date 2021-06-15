@@ -23,11 +23,27 @@ class PackageRepository extends AbstractRepository
         return new Package();
     }
 
+    /**
+     * @param string $name
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function index(string $name = '')
     {
         return $this->getModel()
-            ->where('name', 'like', '%' . $name . '%')
             ->with('status')
+            ->where('name', 'like', '%' . $name . '%')
             ->get();
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     */
+    public function show(int $id)
+    {
+        return $this->getModel()
+            ->with('status')
+            ->where('id', $id)
+            ->first();
     }
 }
