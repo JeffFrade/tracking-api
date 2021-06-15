@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\PackageNotFoundException;
 use App\Repositories\PackageRepository;
 
 class Package
@@ -33,5 +34,22 @@ class Package
     private function createDefaultPackageRepository()
     {
         return new PackageRepository();
+    }
+
+    /**
+     * @param array $params
+     * @return mixed
+     * @throws PackageNotFoundException
+     */
+    public function index(array $params)
+    {
+        $packages = $this->getPackageRepository()
+            ->index($params['name'] ?? '');
+
+        if (count($packages) <= 0) {
+            throw new PackageNotFoundException('Não há pacotes com os filtros desejados');
+        }
+
+        return $packages;
     }
 }

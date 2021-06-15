@@ -22,4 +22,12 @@ class PackageRepository extends AbstractRepository
     {
         return new Package();
     }
+
+    public function index(string $name = '')
+    {
+        return $this->getModel()
+            ->where('name', 'like', '%' . $name . '%')
+            ->with('status')
+            ->get();
+    }
 }

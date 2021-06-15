@@ -17,7 +17,7 @@ class Package extends Model
 
     public function status()
     {
-        return $this->hasMany(PackageStatus::class, 'id', 'id_package');
+        return $this->hasMany(PackageStatus::class, 'id_package', 'id');
     }
 
     protected static function newFactory()
