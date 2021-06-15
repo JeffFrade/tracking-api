@@ -15,10 +15,7 @@ class CreateStatusTable extends Migration
     {
         Schema::create('status', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_package')
-                ->unsigned();
             $table->text('status');
-            $table->text('locale');
             $table->timestamps();
             $table->softDeletes();
         });

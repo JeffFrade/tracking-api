@@ -19,6 +19,7 @@ class CreatePackageStatusTable extends Migration
                 ->unsigned();
             $table->bigInteger('id_status')
                 ->unsigned();
+            $table->string('locale');
             $table->timestamps();
             $table->softDeletes();
 
