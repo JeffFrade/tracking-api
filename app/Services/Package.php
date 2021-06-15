@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\PackageNotFoundException;
+use App\Exceptions\PackageStoreException;
 use App\Repositories\PackageRepository;
 
 class Package
@@ -51,6 +52,23 @@ class Package
         }
 
         return $packages;
+    }
+
+    /**
+     * @param array $params
+     * @return mixed
+     * @throws PackageStoreException
+     */
+    public function store(array $params)
+    {
+        $package = $this->getPackageRepository()
+            ->create($params);
+
+        if ($package === false) {
+            throw new PackageStoreException();
+        }
+
+        return $package;
     }
 
     /**

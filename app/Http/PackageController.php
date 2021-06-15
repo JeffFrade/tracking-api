@@ -26,6 +26,10 @@ class PackageController extends Controller
         $this->package = $package;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         try {
@@ -38,6 +42,26 @@ class PackageController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        try {
+            $params = $this->toValidate($request);
+            $data = $this->package->store($params);
+
+            return response()->json($this->sendResponse($data, 1), 200);
+        } catch (\Throwable $throwable) {
+            return $this->handleException($throwable);
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show(int $id)
     {
         try {
@@ -49,10 +73,15 @@ class PackageController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     * @throws \Illuminate\Validation\ValidationException
+     */
     private function toValidate(Request $request)
     {
         $validation = $this->validate($request, [
-            'name' => 'nullable|max:255',
+            'name' => 'required|max:255',
         ]);
 
         if (empty($validation['error']) === false) {
@@ -62,6 +91,10 @@ class PackageController extends Controller
         return $validation;
     }
 
+    /**
+     * @param \Throwable $throwable
+     * @return \Illuminate\Http\JsonResponse
+     */
     private function handleException(\Throwable $throwable)
     {
         switch ($throwable) {
