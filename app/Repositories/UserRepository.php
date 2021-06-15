@@ -7,13 +7,19 @@ use App\Repositories\Models\User;
 
 class UserRepository extends AbstractRepository
 {
+    /**
+     * @return User
+     */
     public function getModel()
     {
         return $this->model ?? $this->createDefaultModel();
     }
 
+    /**
+     * @return User
+     */
     private function createDefaultModel()
     {
-        $this->model = new User();
+        return new User();
     }
 }

@@ -7,13 +7,19 @@ use App\Repositories\Models\Package;
 
 class PackageRepository extends AbstractRepository
 {
+    /**
+     * @return Package
+     */
     public function getModel()
     {
         return $this->model ?? $this->createDefaultModel();
     }
 
+    /**
+     * @return Package
+     */
     private function createDefaultModel()
     {
-        $this->model = new Package();
+        return new Package();
     }
 }

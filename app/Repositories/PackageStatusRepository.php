@@ -7,13 +7,19 @@ use App\Repositories\Models\PackageStatus;
 
 class PackageStatusRepository extends AbstractRepository
 {
+    /**
+     * @return PackageStatus
+     */
     public function getModel()
     {
         return $this->model ?? $this->createDefaultModel();
     }
 
+    /**
+     * @return PackageStatus
+     */
     private function createDefaultModel()
     {
-        $this->model = new PackageStatus();
+        return new PackageStatus();
     }
 }
