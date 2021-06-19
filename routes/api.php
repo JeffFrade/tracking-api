@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'packages'], function () {
+        Route::get('/', 'PackageController@index')->name('package.index');
+        Route::post('/store', 'PackageController@store')->name('package.store');
+        Route::get('/show/{id}', 'PackageController@show')->name('package.show');
+        Route::put('/update/{id}', 'PackageController@update')->name('package.update');
+        Route::delete('/delete/{id}', 'PackageController@delete')->name('package.delete');
+    });
 });

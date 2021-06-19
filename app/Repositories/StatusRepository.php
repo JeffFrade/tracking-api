@@ -7,13 +7,19 @@ use App\Repositories\Models\Status;
 
 class StatusRepository extends AbstractRepository
 {
+    /**
+     * @return Status
+     */
     public function getModel()
     {
         return $this->model ?? $this->createDefaultModel();
     }
 
+    /**
+     * @return Status
+     */
     private function createDefaultModel()
     {
-        $this->model = new Status();
+        return new Status();
     }
 }
