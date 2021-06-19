@@ -145,5 +145,4 @@ class PackageController extends Controller
 
         return response()->json($this->sendResponse($throwable->getMessage(), 0, 'error'), $statusCode);
     }
-
 }
