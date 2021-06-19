@@ -26,6 +26,10 @@ class StatusController extends Controller
         $this->status = $status;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         try {
