@@ -91,6 +91,26 @@ class StatusController extends Controller
     }
 
     /**
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(int $id)
+    {
+        try {
+            $this->status->delete($id);
+
+            $data = [
+                'id' => $id,
+                'deleted' => true
+            ];
+
+            return response()->json($this->sendResponse($data, 1), 200);
+        } catch (\Throwable $throwable) {
+            return $this->handleException($throwable);
+        }
+    }
+
+    /**
      * @param Request $request
      * @return array
      * @throws \Illuminate\Validation\ValidationException

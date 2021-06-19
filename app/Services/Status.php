@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Exceptions\PackageStatusDeleteException;
+use App\Exceptions\StatusDeleteException;
 use App\Exceptions\StatusNotFoundException;
 use App\Exceptions\StatusStoreException;
 use App\Exceptions\StatusUpdateException;
@@ -137,5 +139,23 @@ class Status
         }
 
         return $this->show($id);
+    }
+
+    /**
+     * @param int $id
+     * @throws StatusDeleteException
+     * @throws StatusNotFoundException
+     * @throws PackageStatusDeleteException
+     */
+    public function delete(int $id)
+    {
+        $this->show($id);
+
+        $this->getPackageStatus()->deleteByIdPackage($id);
+        $package = $this->getStatusRepository()->delete($id);
+
+        if ($package === false) {
+            throw new StatusDeleteException(sprintf('Erro ao deletar o status de ID %s', $id));
+        }
     }
 }
