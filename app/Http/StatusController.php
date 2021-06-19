@@ -4,26 +4,26 @@ namespace App\Http;
 
 use App\Core\Support\Controller;
 use App\Core\Support\Response;
-use App\Exceptions\PackageNotFoundException;
-use App\Services\Package;
+use App\Exceptions\StatusNotFoundException;
+use App\Services\Status;
 use Illuminate\Http\Request;
 
-class PackageController extends Controller
+class StatusController extends Controller
 {
     use Response;
 
     /**
-     * @var Package
+     * @var Status
      */
-    private $package;
+    private $status;
 
     /**
-     * PackageController constructor.
-     * @param Package $package
+     * StatusController constructor.
+     * @param Status $status
      */
-    public function __construct(Package $package)
+    public function __construct(Status $status)
     {
-        $this->package = $package;
+        $this->status = $status;
     }
 
     /**
@@ -34,7 +34,7 @@ class PackageController extends Controller
     {
         try {
             $params = $request->all();
-            $data = $this->package->index($params);
+            $data = $this->status->index($params);
 
             return response()->json($this->sendResponse($data, 1), 200);
         } catch (\Throwable $throwable) {
@@ -50,7 +50,7 @@ class PackageController extends Controller
     {
         try {
             $params = $this->toValidate($request);
-            $data = $this->package->store($params);
+            $data = $this->status->store($params);
 
             return response()->json($this->sendResponse($data, 1), 200);
         } catch (\Throwable $throwable) {
@@ -65,7 +65,7 @@ class PackageController extends Controller
     public function show(int $id)
     {
         try {
-            $data = $this->package->show($id);
+            $data = $this->status->show($id);
 
             return response()->json($this->sendResponse($data, 1), 200);
         } catch (\Throwable $throwable) {
@@ -82,7 +82,7 @@ class PackageController extends Controller
     {
         try {
             $params = $this->toValidate($request);
-            $data = $this->package->update($id, $params);
+            $data = $this->status->update($id, $params);
 
             return response()->json($this->sendResponse($data, 1), 200);
         } catch (\Throwable $throwable) {
@@ -97,7 +97,7 @@ class PackageController extends Controller
     public function delete(int $id)
     {
         try {
-            $this->package->delete($id);
+            $this->status->delete($id);
 
             $data = [
                 'id' => $id,
@@ -118,7 +118,7 @@ class PackageController extends Controller
     private function toValidate(Request $request)
     {
         $validation = $this->validate($request, [
-            'name' => 'required|max:255',
+            'status' => 'required|max:65535',
         ]);
 
         if (empty($validation['error']) === false) {
@@ -136,7 +136,7 @@ class PackageController extends Controller
     {
         switch ($throwable) {
             case $throwable instanceof \InvalidArgumentException:
-            case $throwable instanceof PackageNotFoundException:
+            case $throwable instanceof StatusNotFoundException:
                 $statusCode = 400;
                 break;
             default:

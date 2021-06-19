@@ -24,4 +24,12 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::put('/update/{id}', 'PackageController@update')->name('package.update');
         Route::delete('/delete/{id}', 'PackageController@delete')->name('package.delete');
     });
+
+    Route::group(['prefix' => 'status'], function () {
+        Route::get('/', 'StatusController@index')->name('status.index');
+        Route::post('/store', 'StatusController@store')->name('status.store');
+        Route::get('/show/{id}', 'StatusController@show')->name('status.show');
+        Route::put('/update/{id}', 'StatusController@update')->name('status.update');
+        Route::delete('/delete/{id}', 'StatusController@delete')->name('status.delete');
+    });
 });

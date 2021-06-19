@@ -22,4 +22,11 @@ class StatusRepository extends AbstractRepository
     {
         return new Status();
     }
+
+    public function index(string $status)
+    {
+        return $this->getModel()
+            ->where('status', 'like', '%' . $status . '%')
+            ->get();
+    }
 }

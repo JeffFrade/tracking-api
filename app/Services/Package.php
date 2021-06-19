@@ -97,7 +97,7 @@ class Package
             ->create($params);
 
         if ($package === false) {
-            throw new PackageStoreException();
+            throw new PackageStoreException('Erro ao cadastrar o pacote');
         }
 
         return $package;
@@ -138,7 +138,7 @@ class Package
             throw new PackageUpdateException('Erro ao atualizar os dados do pacote de ID %s', $id);
         }
 
-        return $package;
+        return $this->show($id);
     }
 
     /**
