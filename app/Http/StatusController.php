@@ -43,6 +43,40 @@ class StatusController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        try {
+            $params = $this->toValidate($request);
+            $data = $this->status->store($params);
+
+            return response()->json($this->sendResponse($data, 1), 200);
+        } catch (\Throwable $throwable) {
+            return $this->handleException($throwable);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    private function toValidate(Request $request)
+    {
+        $validation = $this->validate($request, [
+            'status' => 'required|max:65535',
+        ]);
+
+        if (empty($validation['error']) === false) {
+            throw new \InvalidArgumentException($validation['error']);
+        }
+
+        return $validation;
+    }
+
+    /**
      * @param \Throwable $throwable
      * @return \Illuminate\Http\JsonResponse
      */

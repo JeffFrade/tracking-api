@@ -97,7 +97,7 @@ class Package
             ->create($params);
 
         if ($package === false) {
-            throw new PackageStoreException();
+            throw new PackageStoreException('Erro ao cadastrar o pacote');
         }
 
         return $package;

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\StatusNotFoundException;
+use App\Exceptions\StatusStoreException;
 use App\Repositories\StatusRepository;
 
 class Status
@@ -77,6 +78,23 @@ class Status
 
         if (count($status) <= 0) {
             throw new StatusNotFoundException('Não há status com os filtros desejados');
+        }
+
+        return $status;
+    }
+
+    /**
+     * @param array $params
+     * @return mixed
+     * @throws StatusStoreException
+     */
+    public function store(array $params)
+    {
+        $status = $this->getStatusRepository()
+            ->create($params);
+
+        if ($status === false) {
+            throw new StatusStoreException('Erro ao cadastrar o status');
         }
 
         return $status;
