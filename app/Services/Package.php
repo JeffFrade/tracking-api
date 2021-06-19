@@ -6,6 +6,7 @@ use App\Exceptions\PackageDeleteException;
 use App\Exceptions\PackageNotFoundException;
 use App\Exceptions\PackageStatusDeleteException;
 use App\Exceptions\PackageStoreException;
+use App\Exceptions\PackageUpdateException;
 use App\Repositories\PackageRepository;
 
 class Package
@@ -114,6 +115,27 @@ class Package
 
         if (empty($package)) {
             throw new PackageNotFoundException('Pacote inexistente');
+        }
+
+        return $package;
+    }
+
+    /**
+     * @param int $id
+     * @param array $data
+     * @return mixed
+     * @throws PackageNotFoundException
+     * @throws PackageUpdateException
+     */
+    public function update(int $id, array $data)
+    {
+        $this->show($id);
+
+        $package = $this->getPackageRepository()
+            ->update($data, $id);
+
+        if ($package === false) {
+            throw new PackageUpdateException('Erro ao atualizar os dados do pacote de ID %s', $id);
         }
 
         return $package;

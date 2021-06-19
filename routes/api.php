@@ -21,6 +21,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/', 'PackageController@index')->name('package.index');
         Route::post('/store', 'PackageController@store')->name('package.store');
         Route::get('/show/{id}', 'PackageController@show')->name('package.show');
+        Route::put('/update/{id}', 'PackageController@update')->name('package.update');
         Route::delete('/delete/{id}', 'PackageController@delete')->name('package.delete');
     });
 });

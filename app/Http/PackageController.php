@@ -74,6 +74,23 @@ class PackageController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, int $id)
+    {
+        try {
+            $params = $this->toValidate($request);
+            $data = $this->package->update($id, $params);
+
+            return response()->json($this->sendResponse($data, 1), 200);
+        } catch (\Throwable $throwable) {
+            return $this->handleException($throwable);
+        }
+    }
+
+    /**
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
