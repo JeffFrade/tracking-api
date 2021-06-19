@@ -75,6 +75,23 @@ class StatusController extends Controller
 
     /**
      * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, int $id)
+    {
+        try {
+            $params = $this->toValidate($request);
+            $data = $this->status->update($id, $params);
+
+            return response()->json($this->sendResponse($data, 1), 200);
+        } catch (\Throwable $throwable) {
+            return $this->handleException($throwable);
+        }
+    }
+
+    /**
+     * @param Request $request
      * @return array
      * @throws \Illuminate\Validation\ValidationException
      */

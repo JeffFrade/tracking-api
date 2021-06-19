@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\StatusNotFoundException;
 use App\Exceptions\StatusStoreException;
+use App\Exceptions\StatusUpdateException;
 use App\Repositories\StatusRepository;
 
 class Status
@@ -115,5 +116,26 @@ class Status
         }
 
         return $status;
+    }
+
+    /**
+     * @param int $id
+     * @param array $data
+     * @return mixed
+     * @throws StatusNotFoundException
+     * @throws StatusUpdateException
+     */
+    public function update(int $id, array $data)
+    {
+        $this->show($id);
+
+        $status = $this->getStatusRepository()
+            ->update($data, $id);
+
+        if ($status === false) {
+            throw new StatusUpdateException('Erro ao atualizar os dados do status de ID %s', $id);
+        }
+
+        return $this->show($id);
     }
 }
