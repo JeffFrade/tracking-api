@@ -99,4 +99,21 @@ class Status
 
         return $status;
     }
+
+    /**
+     * @param int $id
+     * @return mixed
+     * @throws StatusNotFoundException
+     */
+    public function show(int $id)
+    {
+        $status = $this->getStatusRepository()
+            ->findFirst('id', $id);
+
+        if (empty($status)) {
+            throw new StatusNotFoundException('Status inexistente');
+        }
+
+        return $status;
+    }
 }

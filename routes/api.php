@@ -28,5 +28,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'status'], function () {
         Route::get('/', 'StatusController@index')->name('status.index');
         Route::post('/store', 'StatusController@store')->name('status.store');
+        Route::get('/show/{id}', 'StatusController@show')->name('status.show');
     });
 });
