@@ -32,4 +32,9 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::put('/update/{id}', 'StatusController@update')->name('status.update');
         Route::delete('/delete/{id}', 'StatusController@delete')->name('status.delete');
     });
+
+    Route::group(['prefix' => 'package-status'], function () {
+        Route::get('/', 'PackageStatusController@index')->name('package.status.index');
+        Route::delete('/delete/{id}', 'PackageStatusController@delete')->name('package.status.delete');
+    });
 });
