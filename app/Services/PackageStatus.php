@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\PackageStatusDeleteException;
+use App\Exceptions\PackageStatusNotFoundException;
 use App\Repositories\PackageStatusRepository;
 
 class PackageStatus
@@ -34,6 +35,23 @@ class PackageStatus
     private function createDefaultPackageStatusRepository()
     {
         return new PackageStatusRepository();
+    }
+
+    /**
+     * @param array $params
+     * @return mixed
+     * @throws PackageStatusNotFoundException
+     */
+    public function index(array $params)
+    {
+        $packageStatus = $this->getPackageStatusRepository()
+            ->index($params['id_package'] ?? 0, $params['id_status'] ?? 0, $params['locale'] ?? '');
+
+        if (count($packageStatus) <= 0) {
+            throw new PackageStatusNotFoundException('Não há status com os filtros desejados');
+        }
+
+        return $packageStatus;
     }
 
     /**
