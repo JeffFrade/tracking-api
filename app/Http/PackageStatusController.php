@@ -43,6 +43,26 @@ class PackageStatusController extends Controller
     }
 
     /**
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(int $id)
+    {
+        try {
+            $this->packageStatus->delete($id);
+
+            $data = [
+                'id' => $id,
+                'deleted' => true
+            ];
+
+            return response()->json($this->sendResponse($data, 1), 200);
+        } catch (\Throwable $throwable) {
+            return $this->handleException($throwable);
+        }
+    }
+
+    /**
     * @param \Throwable $throwable
     * @return \Illuminate\Http\JsonResponse
     */

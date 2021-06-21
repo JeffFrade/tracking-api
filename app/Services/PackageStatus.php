@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\PackageDeleteException;
 use App\Exceptions\PackageStatusDeleteException;
 use App\Exceptions\PackageStatusNotFoundException;
 use App\Repositories\PackageStatusRepository;
@@ -52,6 +53,37 @@ class PackageStatus
         }
 
         return $packageStatus;
+    }
+
+    /**
+     * @param int $id
+     * @throws PackageStatusNotFoundException
+     */
+    public function exists(int $id)
+    {
+        $packageStatus = $this->getPackageStatusRepository()
+            ->findFirst('id', $id);
+
+        if (empty($packageStatus)) {
+            throw new PackageStatusNotFoundException('Status do pacote inexistente');
+        }
+    }
+
+    /**
+     * @param int $id
+     * @throws PackageDeleteException
+     * @throws PackageStatusNotFoundException
+     */
+    public function delete(int $id)
+    {
+        $this->exists($id);
+
+        $packageStatus = $this->getPackageStatusRepository()
+            ->delete($id);
+
+        if ($packageStatus === false) {
+            throw new PackageDeleteException(sprintf('Erro ao deletar o status do pacote de ID %s', $id));
+        }
     }
 
     /**

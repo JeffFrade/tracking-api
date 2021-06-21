@@ -35,5 +35,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'package-status'], function () {
         Route::get('/', 'PackageStatusController@index')->name('package.status.index');
+        Route::delete('/delete/{id}', 'PackageStatusController@delete')->name('package.status.delete');
     });
 });
