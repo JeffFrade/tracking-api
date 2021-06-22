@@ -17,4 +17,6 @@ docker exec tracking-api-php-fpm php artisan migrate:fresh --seed
 
 echo "-> Instala o Laravel Passport (Gera o token)"
 docker exec tracking-api-php-fpm php artisan passport:install > clients.txt
+
 echo "-> Utilizar o segundo token gerado na hora de testar a aplicação"
+cat clients.txt
